@@ -1,0 +1,32 @@
+package com.example.ContactList
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.recyclerview.widget.RecyclerView
+import com.example.ContactList.adapter.MyAdapter
+import com.example.ContactList.datasource.Datasource
+
+
+class MainActivity : AppCompatActivity() {
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Initialize the Datasource consisting of a list with a member function
+        
+        val myDataset = Datasource().loadStuff()
+
+        // Initialize the recyclerview widget
+        
+        val recView: RecyclerView = findViewById(R.id.recView)
+
+        // Instantiate the recyclerview adapter
+        
+        recView.adapter = MyAdapter(this, myDataset)
+
+
+        recView.setHasFixedSize(false)
+
+    }
+}
