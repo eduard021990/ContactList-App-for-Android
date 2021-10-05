@@ -1,0 +1,68 @@
+package com.example.ContactList
+import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+
+
+class DetailActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_detail)
+
+        // Initialize all the widgets on this activity
+
+        val curView: TextView = findViewById(R.id.name)
+        val editTextNumber: EditText = findViewById(R.id.editTextNumber)
+        val editEmail: EditText = findViewById(R.id.editEmailAddress)
+        val saveButton: Button = findViewById(R.id.save_button)
+        val numberText: TextView = findViewById(R.id.textView)
+        val emailText: TextView = findViewById(R.id.textView2)
+        val testButton: Button = findViewById(R.id.test_button)
+
+        curView.text = intent.getStringExtra("name") // sets the upper's textview text to be equal to the text in the clicked item from the recyclerview
+
+        // Using SharedPreferences to store data inputted by the user
+
+        val pref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = pref.edit()
+
+
+        saveButton.setOnClickListener {
+
+            // Sets the textview text equal to that of the edittext
+
+            numberText.text = editTextNumber.text
+            emailText.text = editEmail.text
+
+            // store edittext data in a string
+
+            val number = editTextNumber.text.toString()
+            val email = editEmail.text.toString()
+
+            // Store the strings in SharedPreferences
+
+            editor.putString("number", number)
+            editor.putString("email", email)
+            editor.apply()
+
+        }
+
+        // retrieving the position from onBindViewHolder. Not sure what to do with it yet
+
+        val position = intent.getIntExtra("position", -1)
+
+
+        // TBD . I want to change the text for a single item in recview, not all of them
+
+        numberText.text = pref.getString("number", "")
+        emailText.text = pref.getString("email", "")
+        editor.apply()
+
+
+    }
+
+
+}
